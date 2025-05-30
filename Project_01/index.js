@@ -27,4 +27,9 @@ app.get('/api/users/:id',(req,res)=>{
     return res.json(user);
 })
 
+//browsers by default make get request only 
+//so to test our other API other than get we use tools like postman 
+
+
+
 app.listen(port,()=>console.log(`server started on port: ${port}`));
