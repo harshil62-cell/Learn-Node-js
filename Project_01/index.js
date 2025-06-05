@@ -1,4 +1,4 @@
-//lecture-13
+//lecture-13 , 14 ,15 , 16
 const express=require('express');
 let users=require('./MOCK_DATA.json');
 const fs=require('fs');
@@ -7,10 +7,45 @@ const port=8000;
 
 //middleware-plugin
 app.use(express.urlencoded({extended:false}));
+// What does it do?
+
+//     It parses application/x-www-form-urlencoded request bodies (which is the default format for HTML forms).
+
+//     After parsing, it adds the data to req.body, so you can access it easily.
+
+// What does extended: false mean?
+
+//     false: Uses the Node.js built-in querystring module to parse the data. This means it can only parse simple objects (like strings and arrays).
+
+//     true: Uses the qs library, which allows for nested objects (more complex structures).
+
+//creating custom middlewares
+
+// app.use((req,res,next)=>{
+//     console.log("first middleware will go to second middleware");
+//     //to pass the request to next middleware
+//     req.my_user_name="jai";
+//     next();
+// })
+// app.use((req,res,next)=>{
+       
+//     return res.json({msg:"Hello from middleWare",previous:`${req.my_user_name}`});
+// })
+
+app.use((req,res,next)=>{
+    fs.appendFile("log.txt",`${Date.now()}:${req.method}:${req.path}\n`,(err)=>{
+        if(err){
+            console.error("error writing to log file",err);
+        }
+    });
+    next();
+})
 
 //Routes
 //List all users 
 app.get('/api/users',(req,res)=>{
+    res.setHeader("X-myName","Harshil Vasani");//custom response header
+    //Always add X to custom headers to identify that they are custom headers
     return res.json(users);
 })
 
