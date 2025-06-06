@@ -4,11 +4,12 @@
   "description": "project_1",
   "main": "index.js",
   "scripts": {
-    "start":"node index"
+    "start": "nodemon index"
   },
   "author": "harshil",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
   }
 }

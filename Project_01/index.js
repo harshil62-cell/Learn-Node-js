@@ -63,16 +63,22 @@ app.get('/users',(req,res)=>{
 app.get('/api/users/:id',(req,res)=>{
     const id=Number(req.params.id);//as this will be a string but we want number so convert it to number
     const user=users.find((user)=>user.id===id);
+    if(!user){
+        return res.status(404).json({message:`user with id: ${id} not found`});
+    }
     return res.json(user);
 })
 
 //post user
 app.post('/api/user',(req,res)=>{
     const body=req.body;
+    if(!body || !body.first_name || !body.last_name || !body.job_title || !body.email || !body.gender){
+        return res.status(400).json({message:"All fields are required"});
+    }
     console.log("body ",body);
     users.push({...body,id:users.length+1});
     fs.writeFile('./MOCK_DATA.json',JSON.stringify(users),(err,data)=>{
-        return res.json({status:"done"});
+        return res.status(201).json({status:"done"});
     })
 })
 //homework complete below API
